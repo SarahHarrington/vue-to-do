@@ -1,12 +1,17 @@
 <template>
   <div>
-    <input type="text" v-model="todo" placeholder="Add a Todo!" @keyup.enter="addTodo($event)" />
+    <input 
+      type="text" 
+      v-model="todo" 
+      placeholder="Add a Todo!" 
+      @keyup.enter="addTodo($event)"
+      class="add-todo" />
   </div>
 </template>
 
 <script>
-import axios from "axios";
-// import bus from './../bus.js'
+import axios from 'axios'
+import bus from './../bus.js'
 
 export default {
   data() {
@@ -26,14 +31,25 @@ export default {
         .post(url, param)
         .then(response => {
           console.log("response", response);
+          this.clearTodo();
+          this.refreshTodo();
         })
         .catch(error => {
           console.log("error", error);
         });
+    }, 
+    clearTodo() {
+      this.todo = ''
+    },
+    refreshTodo() {
+      bus.$emit('refreshTodo')
     }
   }
 };
 </script>
 
 <style scoped>
+  .add-todo {
+    width: 80%;
+  }
 </style>
