@@ -1,7 +1,7 @@
 <template>
  <div>
   <h2>Things to do!</h2>
-  <div v-for="todo in todos">
+  <div v-for="todo in todos" v-bind:key="todo._id">
    <input 
     type="checkbox" 
     v-model="todo.done" 
@@ -11,6 +11,7 @@
     type="text" 
     v-model="todo.name"
     v-on:change="updateTodo(todo)">
+   <button v-on:click="deleteTodo(todo)">Delete</button>
   </div>
  </div>
  
@@ -47,6 +48,14 @@ export default {
     console.log(error)
    })
   },
+  deleteTodo(todo) {
+   let id = todo._id
+   let uri = 'http://localhost:4000/api/deleteTodo/' + id
+
+   axios.post(uri)
+
+  },
+
   listenToEvents() {
    bus.$on('refreshTodo', ($event) => {
     this.getTodos()

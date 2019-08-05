@@ -50,5 +50,18 @@ todoRoutes.route('/updateTodo/:id').post(function(req, res, next) {
  })
 })
 
+todoRoutes.route('/deleteTodo/:id').post(function (req, res, next) {
+ let id = req.params.id
+
+ console.log('the id', id)
+
+ todo.findByIdAndRemove(id, function (error, todo) {
+  if (error) {
+   return next(new Error('Could not delete to do'))
+  }
+  res.sendStatus(200)
+ })
+})
+
 
 module.exports = todoRoutes
